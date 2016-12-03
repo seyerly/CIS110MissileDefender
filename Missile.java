@@ -18,6 +18,8 @@ public class Missile {
     public double moveConstant;
     public boolean isEnemy;
     
+    public double explosionRadius = 0.05;
+    
     public Missile(double xBegin, double yBegin, double xEnd,
                    double yEnd, double moveConstant) {
         isEnemy = false;
@@ -78,19 +80,24 @@ public class Missile {
                 isExploding = true;
             }
         }
-            if (!isEnemy){
-                if (yCurrent >= yEnd) {
-                    isExploding = true;
-                }
+        if (!isEnemy){
+            if (yCurrent >= yEnd) {
+                isExploding = true;
             }
         }
-    
- 
+    }
+
+    public double distanceTo(Missile j) {
+        double deltaX = j.xCurrent - this.xCurrent;
+        double deltaY = j.yCurrent - this.yCurrent;
+        double d = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        return d;
+    }
     
     public static void main(String[] args) {
         PennDraw.enableAnimation(60);
         LinkedList missilesGalore = new LinkedList();
-      
+        
         
         while(true){
             PennDraw.clear();

@@ -108,22 +108,22 @@ public class LinkedList{
         }
         
         if (!n.missile.isEnemy) {
-            if (n.missile.isExploding) 
+            if (n.missile.isExploding) {
                 Node current = head;
-                while (current != null) {
-                    if (current != n) {
+            while (current != null) {
+                if (current != n) {
                     // If the enemy missile is within the blast, we delete it
                     // by eliminating it from the linked list
                     if (current.missile.distanceTo(n.missile) < 
-                current.missile.explosionRadius) {
+                        current.missile.explosionRadius) {
                         current.previous.next = current.next;
                         current.next.previous = current.previous;
                     }
-                    }
-                    current = current.next;
-                    }
                 }
-                isDestroying(n.next);
+                current = current.next;
+            }
             }
         }
- 
+        isDestroying(n.next);
+    }
+}

@@ -4,6 +4,7 @@ public class Node {
     public Node next;
     public Node previous;
     public Missile missile;
+    public Picture picture;
     
     public Node(Missile missile) {
         next = null;
@@ -11,10 +12,10 @@ public class Node {
         this.missile = missile;
     }
     
-    public Node(Node next, Node previous, Missile missile) {
+    public Node(Picture picture) {
         this.next = next;
         this.previous = previous;
-        this.missile = missile;
+        this.picture = picture;
         
     }
     public static void main(String[]args){

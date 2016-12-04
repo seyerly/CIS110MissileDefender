@@ -64,6 +64,42 @@ public class LinkedList{
         }
     }
     
+    public void insertP(Picture p) {
+        
+        //error checking
+        if (p == null) {
+            return;
+        }
+        
+        //special case for inserting a point for the first time
+        else if (isEmpty()) {
+            Node insert = new Node (p);
+            head = insert;
+            lastNode = insert;
+            size = 1;
+        }
+        
+        
+        else {
+            Node insert = new Node(p);
+            Node current = head;
+            
+            //go to the end of the linked list
+            for (int i = 0; i < size - 1; i++) {
+                //System.out.println("insertInOrder");
+                current = current.next;
+            }
+            
+            //insert the new point before lastNode
+            insert.next = current.next;
+            insert.previous = current;
+            current.next = insert;
+            
+            //increment the size of the tour
+            size++;
+        }
+    }
+    
     public void delete (Node m) {
 
         if (m == null) {
@@ -90,7 +126,7 @@ public class LinkedList{
         size--;
     }
     
-    public void moveMissiles() {
+    public void moveMissiles(LinkedList background) {
         
         
         // Should not draw if there are no missiles to draw
@@ -103,11 +139,28 @@ public class LinkedList{
         while (current != null){
             current.missile.move();
             if(current.missile.iterationsExploded > explosionDuration) {
+                if (current.missile.isEnemy){
+                double xEnd = current.missile.xEnd;
+                background.removePicture(xEnd);
+                }
+                //explode draw function
                 delete(current);
             }
             
             current = current.next;
         }
+    }
+    
+    public void removePicture(double x){
+            if ((1.0/5.0) <= x && x <= (2.0/5.0)){
+                head.picture.isDeleted = true;
+            }
+            else if ((2.0/5.0) < x && x <= (3.0/5.0)){
+                head.next.picture.isDeleted = true;
+            }
+            else if ((3.0/5.0) < x && x <= (4.0/5.0)){
+                head.next.next.picture.isDeleted = true;
+            }
     }
     
     // Draws all missiles
@@ -122,12 +175,37 @@ public class LinkedList{
         Node current = head;
         
         while (current != null){
+            if(current.missile.isEnemy){
             PennDraw.picture(current.missile.xCurrent, 
-                             current.missile.yCurrent, "riku.png", 50, 50);
+                             current.missile.yCurrent, "missiles.png", 100, 100);
+            }
+            if(!current.missile.isEnemy){
+                PennDraw.picture(current.missile.xCurrent, 
+                             current.missile.yCurrent, "defensivemissiles.png", 100, 100);
+            }
             current = current.next;
         }
     }
     
+     public void drawTo() {
+        
+        
+        // Should not draw if there are no missiles to draw
+        if (isEmpty()) {
+            return;
+        }
+        
+        Node current = head;
+        
+        while (current != null){
+            if (current.picture.isDeleted == false){
+            PennDraw.picture(current.picture.x, 
+                             current.picture.y, current.picture.filename,
+                             current.picture.width, current.picture.height);
+            }
+            current = current.next;
+        }
+    }
     
     // Goes throught the linked list and eliminates all missiles being
     // destroyed recursively.

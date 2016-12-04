@@ -111,19 +111,6 @@ public class Missile {
         return d;
     }
     
-    public static void main(String[] args) {
-        PennDraw.enableAnimation(60);
-        LinkedList missilesGalore = new LinkedList();
-        
-        
-        while(true){
-            PennDraw.clear();
-            if (Math.random() < 0.05) {
-                missilesGalore.insert(new Missile(0.02));
-            }
-            missilesGalore.draw();
-            missilesGalore.moveMissiles();
-            PennDraw.advance();
-        }
-    }
+   
+    
 }

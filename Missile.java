@@ -8,6 +8,7 @@ public class Missile {
     public double xCurrent;
     public double yCurrent;
     public boolean isExploding = false; // missile starts out not exploded.
+    public int iterationsExploded = 0;
     
     // These variable are the total change in x and y for the missile
     public double dX;
@@ -78,11 +79,13 @@ public class Missile {
         if (isEnemy){
             if (yCurrent <= yEnd) {
                 isExploding = true;
+                iterationsExploded++;
             }
         }
         if (!isEnemy){
             if (yCurrent >= yEnd) {
                 isExploding = true;
+                iterationsExploded++;
             }
         }
     }

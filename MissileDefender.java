@@ -10,7 +10,7 @@ public class MissileDefender {
         
         while(true){
             PennDraw.clear();
-            if (Math.random() < 0.05) {
+            if (Math.random() < 0.9) {
                 missilesGalore.insert(new Missile(speedConstant));
             }
             
@@ -32,6 +32,7 @@ public class MissileDefender {
             missilesGalore.isDestroying(missilesGalore.head());
             missilesGalore.draw();
             PennDraw.advance();
+            System.out.println(Math.random());
         }
     }
 }

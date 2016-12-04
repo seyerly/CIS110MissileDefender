@@ -3,6 +3,7 @@ public class LinkedList{
     private Node lastNode;
     private Missile m;
     private int size;
+    private int explosionDuration = 100;
     
     public LinkedList() {
         head = null;
@@ -57,8 +58,7 @@ public class LinkedList{
             Node current = head;
             
             //go to the end of the linked list
-            for (int i = 0; i < size - 1; i++) {
-                //System.out.println("insertInOrder");
+            while(current.next != null) {
                 current = current.next;
             }
             
@@ -74,8 +74,7 @@ public class LinkedList{
     
     public void moveMissiles() {
         
-        
-        // Should not draw if there are no missiles to draw
+        // Should not move if there are no missiles to move
         if (isEmpty()) {
             return;
         }
@@ -84,6 +83,34 @@ public class LinkedList{
         
         while (current != null){
             current.missile.move();
+            
+            // After the missile has finished its explosion duration, it 
+            // is removed.
+            if (current.missile.iterationsExploded > explosionDuration) {
+                /*
+                 * Must check to see if the missile being 
+                 * destroyed is a the very first or last node
+                 */
+                
+                // Checks to see if current is the only node
+                if (current.next == null && current == head) {
+                    head = null;
+                    lastNode = null;
+                }
+                // Checks to see if the current node is at the end
+                else if (current.next == null) {
+                    lastNode = lastNode.previous;
+                    lastNode.next = null;
+                    
+                    // Checks to see if current is the head
+                } else if (current.previous == null) {
+                    head = current.next;
+                    head.previous = null;
+                } else {
+                    current.previous.next = current.next;
+                    current.next.previous = current.previous;
+                }   
+            }
             current = current.next;
         }
     }
@@ -130,15 +157,18 @@ public class LinkedList{
                         // it by eliminating it from the linked list
                         if (current.missile.distanceTo(n.missile) < 
                             current.missile.explosionRadius) {
-                            
-                            
                             /*
                              * Must check to see if the missile being 
                              * destroyed is a the very first or last node
                              */
                             
-                            // Checks to see if current is the last node
-                            if (current.next == null) {
+                            // Checks to see if current is the only node
+                            if (current.next == null && current == head) {
+                                head = null;
+                                lastNode = null;
+                            }
+                            // Checks to see if the current node is at the end
+                            else if (current.next == null) {
                                 lastNode = lastNode.previous;
                                 lastNode.next = null;
                                 
@@ -147,21 +177,20 @@ public class LinkedList{
                                 head = current.next;
                                 head.previous = null;
                             } else {
-                            current.previous.next = current.next;
-                            current.next.previous = current.previous;
-                            }
-                            size--;
+                                current.previous.next = current.next;
+                                current.next.previous = current.previous;
+                            }   
                         }
+                        // Advances the iterations checking
+                        current = current.next;
                     }
-                    // Advances the iterations checking
-                    current = current.next;
                 }
             }
-        }
-        
-        // Checks to make sure that the method is not called on a null node
-        if (n.next != null) {
-        isDestroying(n.next);
+            
+            // Checks to make sure that the method is not called on a null node
+            if (n.next != null) {
+                isDestroying(n.next);
+            }
         }
     }
 }

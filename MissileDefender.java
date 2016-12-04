@@ -20,14 +20,12 @@ public class MissileDefender {
         final double enemySpeedConstant = 0.01;
         final double userSpeedConstant = 0.05;
         
-        
-        
         PennDraw.enableAnimation(100);
         LinkedList missilesGalore = new LinkedList();
         LinkedList background = new LinkedList();
         setUpCities(background);
         
-        while(true){
+        while(!background.defeat()){
             PennDraw.clear();
             PennDraw.picture(0.5, 0.5, "images-1.jpeg", 512, 512);
             PennDraw.picture(0.09, 0.06, "canon1.png", 100, 100);
@@ -56,6 +54,12 @@ public class MissileDefender {
             missilesGalore.isDestroying(missilesGalore.head());
             missilesGalore.draw();
             PennDraw.advance();
+            missilesGalore.score++;
         }
+        PennDraw.picture(0.5, 0.5, "images-1.jpeg", 512, 512);
+            PennDraw.picture(0.09, 0.06, "canon1.png", 100, 100);
+            PennDraw.picture(0.89, 0.06, "canon2.png", 100, 100);
+        System.out.println(missilesGalore.score);
+        System.out.println("Game is Done!");
     }
 }

@@ -4,6 +4,7 @@ public class LinkedList{
     private Missile m;
     private int size;
     private int explosionDuration = 10;
+    public int score = 0;
     
     public LinkedList() {
         head = null;
@@ -106,6 +107,12 @@ public class LinkedList{
             throw new RuntimeException("Error: invalid node to remove");
         }
         
+        if (!m.missile.isEnemy){
+            double xCoord = m.missile.xEnd;
+            double yCoord = m.missile.yEnd;
+           explode(2, xCoord, yCoord, "explosion.png", 50, 50);
+        }
+        
         // We must check to see if m is the only node
         if (m == head && m == lastNode) {
             head = null;
@@ -151,15 +158,30 @@ public class LinkedList{
         }
     }
     
+    public boolean defeat(){
+        if ((head.picture.isDeleted == true) && (head.next.picture.isDeleted == true)
+                && (head.next.next.picture.isDeleted == true)){
+            //System.out.println("True");
+          return true;  
+        }
+        
+        //System.out.println("False");
+        return false;
+       
+    }
+    
     public void removePicture(double x){
             if ((1.0/5.0) <= x && x <= (2.0/5.0)){
                 head.picture.isDeleted = true;
+                //System.out.println("Huntsman");
             }
             else if ((2.0/5.0) < x && x <= (3.0/5.0)){
                 head.next.picture.isDeleted = true;
+                //System.out.println("PennMedicine");
             }
             else if ((3.0/5.0) < x && x <= (4.0/5.0)){
                 head.next.next.picture.isDeleted = true;
+                //System.out.println("Singh");
             }
     }
     
@@ -232,6 +254,7 @@ public class LinkedList{
                             current.missile.explosionRadius) {
                             delete(current);
                             size--;
+                            score+=100;
                         }
                     }
                     // Advances the iterations checking
@@ -245,4 +268,39 @@ public class LinkedList{
             isDestroying(n.next);
         }
     }
+    
+    private void explode (int numLevels, double xCenter, double yCenter, 
+                          String filename, double width, double height){
+        //base case
+        if (numLevels <= 0) {
+            return;
+        }
+        
+        //call placePicture to place a randomly selected image
+        if (numLevels <= 1){
+        PennDraw.picture(xCenter, yCenter, filename, width, height);
+        }
+        
+        //modify the x and y coordinates and decrease
+        //width and height for each level
+        double x1 = xCenter + .05;
+        double x2 = xCenter - .05;
+        double y1 = yCenter + .05;
+        double y2 = yCenter - .05;
+        
+        //decrease the depth and size
+        numLevels--;
+        //size /= 2;
+        
+        //draw upper left picture
+        explode(numLevels, x2, y1, filename, width, height);
+        //draw upper right picture
+        explode(numLevels, x1, y1, filename, width, height);
+        //draw lower left
+        explode(numLevels, x2, y2, filename, width, height);
+        //draw lower right
+        explode(numLevels, x1, y2, filename, width, height);
+   
+    }
+   
 }

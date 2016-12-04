@@ -3,7 +3,7 @@ public class LinkedList{
     private Node lastNode;
     private Missile m;
     private int size;
-    private int explosionDuration = 100;
+    private int explosionDuration = 10;
     
     public LinkedList() {
         head = null;
@@ -40,7 +40,6 @@ public class LinkedList{
         if (m == null) {
             return;
         }
-        
         //special case for inserting a point for the first time
         else if (isEmpty()) {
             head = new Node(m);
@@ -55,26 +54,46 @@ public class LinkedList{
         
         else {
             Node insert = new Node(m);
-            Node current = head;
-            
-            //go to the end of the linked list
-            while(current.next != null) {
-                current = current.next;
-            }
-            
-            //insert the new point before lastNode
-            insert.next = current.next;
-            insert.previous = current;
-            current.next = insert;
-            
+          
+            insert.next = lastNode.next;
+            insert.previous = lastNode;
+            lastNode.next = insert;
+            lastNode = insert;
             //increment the size of the tour
             size++;
         }
     }
     
+    public void delete (Node m) {
+
+        if (m == null) {
+            throw new RuntimeException("Error: invalid node to remove");
+        }
+        
+        // We must check to see if m is the only node
+        if (m == head && m == lastNode) {
+            head = null;
+            lastNode = null;
+            // checks to see m it is the last node
+        } else if (m.next == null) {
+            lastNode = lastNode.previous;
+            lastNode.next = null;
+            
+            // Checks to see if m is the head
+        } else if (m.previous == null) {
+            this.head = m.next;
+            this.head.previous = null;
+        } else {
+            m.previous.next = m.next;
+            m.next.previous = m.previous;
+        }
+        size--;
+    }
+    
     public void moveMissiles() {
         
-        // Should not move if there are no missiles to move
+        
+        // Should not draw if there are no missiles to draw
         if (isEmpty()) {
             return;
         }
@@ -83,34 +102,10 @@ public class LinkedList{
         
         while (current != null){
             current.missile.move();
-            
-            // After the missile has finished its explosion duration, it 
-            // is removed.
-            if (current.missile.iterationsExploded > explosionDuration) {
-                /*
-                 * Must check to see if the missile being 
-                 * destroyed is a the very first or last node
-                 */
-                
-                // Checks to see if current is the only node
-                if (current.next == null && current == head) {
-                    head = null;
-                    lastNode = null;
-                }
-                // Checks to see if the current node is at the end
-                else if (current.next == null) {
-                    lastNode = lastNode.previous;
-                    lastNode.next = null;
-                    
-                    // Checks to see if current is the head
-                } else if (current.previous == null) {
-                    head = current.next;
-                    head.previous = null;
-                } else {
-                    current.previous.next = current.next;
-                    current.next.previous = current.previous;
-                }   
+            if(current.missile.iterationsExploded > explosionDuration) {
+                delete(current);
             }
+            
             current = current.next;
         }
     }
@@ -157,40 +152,19 @@ public class LinkedList{
                         // it by eliminating it from the linked list
                         if (current.missile.distanceTo(n.missile) < 
                             current.missile.explosionRadius) {
-                            /*
-                             * Must check to see if the missile being 
-                             * destroyed is a the very first or last node
-                             */
-                            
-                            // Checks to see if current is the only node
-                            if (current.next == null && current == head) {
-                                head = null;
-                                lastNode = null;
-                            }
-                            // Checks to see if the current node is at the end
-                            else if (current.next == null) {
-                                lastNode = lastNode.previous;
-                                lastNode.next = null;
-                                
-                                // Checks to see if current is the head
-                            } else if (current.previous == null) {
-                                head = current.next;
-                                head.previous = null;
-                            } else {
-                                current.previous.next = current.next;
-                                current.next.previous = current.previous;
-                            }   
+                            delete(current);
+                            size--;
                         }
-                        // Advances the iterations checking
-                        current = current.next;
                     }
+                    // Advances the iterations checking
+                    current = current.next;
                 }
             }
-            
-            // Checks to make sure that the method is not called on a null node
-            if (n.next != null) {
-                isDestroying(n.next);
-            }
+        }
+        
+        // Checks to make sure that the method is not called on a null node
+        if (n.next != null) {
+            isDestroying(n.next);
         }
     }
 }

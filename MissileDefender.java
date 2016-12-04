@@ -2,7 +2,8 @@ public class MissileDefender {
     public static void main(String[] args) {
         final double leftSiloX = 0.1;
         final double rightSiloX = 0.9;
-        final double speedConstant = 0.02;
+        final double enemySpeedConstant = 0.01;
+        final double userSpeedConstant = 0.05;
         
         PennDraw.enableAnimation(23);
         LinkedList missilesGalore = new LinkedList();
@@ -10,8 +11,8 @@ public class MissileDefender {
         
         while(true){
             PennDraw.clear();
-            if (Math.random() < 0.9) {
-                missilesGalore.insert(new Missile(speedConstant));
+            if (Math.random() < 0.03) {
+                missilesGalore.insert(new Missile(enemySpeedConstant));
             }
             
             if (PennDraw.mousePressed()) {
@@ -19,12 +20,13 @@ public class MissileDefender {
                 double yCoordinate = PennDraw.mouseY();
                 if (xCoordinate < 0.5) {
                 missilesGalore.insert(new Missile(leftSiloX, 0, xCoordinate,
-                                                  yCoordinate, speedConstant));
+                                                  yCoordinate, 
+                                                  userSpeedConstant));
             }
                 else { 
                      missilesGalore.insert(new Missile(rightSiloX, 0,
                                                    xCoordinate, yCoordinate,
-                                                        speedConstant));
+                                                        userSpeedConstant));
                 }
             }
             

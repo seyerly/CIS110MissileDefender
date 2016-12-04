@@ -19,7 +19,7 @@ public class Missile {
     public double moveConstant;
     public boolean isEnemy;
     
-    public double explosionRadius = 0.05;
+    public double explosionRadius = 0.1;
     
     public Missile(double xBegin, double yBegin, double xEnd,
                    double yEnd, double moveConstant) {
@@ -31,8 +31,17 @@ public class Missile {
         this.xEnd = xEnd;
         this.yEnd = yEnd;
         this.moveConstant = moveConstant;
-        dX = xEnd - xBegin;
-        dY = yEnd - yBegin;
+
+        this.moveConstant = moveConstant;
+        
+        double actualDX = xEnd - xBegin;
+        
+        double actualDY = yEnd - yBegin;
+        
+        double distance = Math.sqrt(actualDX * actualDX + 
+                                   actualDY * actualDY);
+        dX = actualDX / distance;
+        dY = actualDY / distance;
         
         
     }
@@ -65,9 +74,14 @@ public class Missile {
         
         this.moveConstant = moveConstant;
         
-        dX = xEnd - xBegin;
+        double actualDX = xEnd - xBegin;
         
-        dY = yEnd - yBegin;
+        double actualDY = yEnd - yBegin;
+        
+        double distance = Math.sqrt(actualDX * actualDX + 
+                                   actualDY * actualDY);
+        dX = actualDX / distance;
+        dY = actualDY / distance;
         
     }
     

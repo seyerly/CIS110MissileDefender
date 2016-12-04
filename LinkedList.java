@@ -29,6 +29,10 @@ public class LinkedList{
         }
     }
     
+    public Node head() {
+        return head;
+    }
+    
     public void insert(Missile m) {
         
         //error checking
@@ -38,9 +42,8 @@ public class LinkedList{
         
         //special case for inserting a point for the first time
         else if (isEmpty()) {
-            Node insert = new Node (m);
-            head = insert;
-            lastNode = insert;
+            head = new Node(m);
+            lastNode = new Node(m);
             size = 1;
         }
         
@@ -107,23 +110,35 @@ public class LinkedList{
             return;
         }
         
+        // Only user missiles can destroy other missles
         if (!n.missile.isEnemy) {
+            
+            // Only an exloding missile can destory other missiles
             if (n.missile.isExploding) {
                 Node current = head;
-            while (current != null) {
-                if (current != n) {
-                    // If the enemy missile is within the blast, we delete it
-                    // by eliminating it from the linked list
-                    if (current.missile.distanceTo(n.missile) < 
-                        current.missile.explosionRadius) {
-                        current.previous.next = current.next;
-                        current.next.previous = current.previous;
+                
+                // Iterates through all nodes to see if n is destroying anything
+                while (current != null) {
+                    // A missile cannot destroy itself and a user missile 
+                    // can not destory other user missiles.
+                    if (current != n && current.missile.isEnemy) {
+                        // If the enemy missile is within the blast, we delete
+                        // it by eliminating it from the linked list
+                        if (current.missile.distanceTo(n.missile) < 
+                            current.missile.explosionRadius) {
+                            current.previous.next = current.next;
+                            current.next.previous = current.previous;
+                        }
                     }
+                    // Advances the iterations checking
+                    current = current.next;
                 }
-                current = current.next;
-            }
             }
         }
+        
+        // Checks to make sure that the method is not called on a null node
+        if (n.next != null) {
         isDestroying(n.next);
+        }
     }
 }

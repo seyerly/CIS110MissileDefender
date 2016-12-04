@@ -44,6 +44,10 @@ public class LinkedList{
         else if (isEmpty()) {
             head = new Node(m);
             lastNode = new Node(m);
+            head.previous = null;
+            head.next = lastNode;
+            lastNode.previous = head;
+            lastNode.next = null;
             size = 1;
         }
         
@@ -126,8 +130,27 @@ public class LinkedList{
                         // it by eliminating it from the linked list
                         if (current.missile.distanceTo(n.missile) < 
                             current.missile.explosionRadius) {
+                            
+                            
+                            /*
+                             * Must check to see if the missile being 
+                             * destroyed is a the very first or last node
+                             */
+                            
+                            // Checks to see if current is the last node
+                            if (current.next == null) {
+                                lastNode = lastNode.previous;
+                                lastNode.next = null;
+                                
+                                // Checks to see if current is the head
+                            } else if (current.previous == null) {
+                                head = current.next;
+                                head.previous = null;
+                            } else {
                             current.previous.next = current.next;
                             current.next.previous = current.previous;
+                            }
+                            size--;
                         }
                     }
                     // Advances the iterations checking

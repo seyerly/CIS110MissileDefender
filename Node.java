@@ -1,5 +1,4 @@
 //from Node.java hw08 class
-
 public class Node {
     public Node next;
     public Node previous;

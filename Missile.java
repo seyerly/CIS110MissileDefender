@@ -94,12 +94,25 @@ public class Missile {
             if (yCurrent <= yEnd) {
                 isExploding = true;
                 iterationsExploded++;
+                
+                //retrieve x and y coordinates of the exploding missile
+            double xCoord = xEnd;
+            double yCoord = yEnd;
+            
+            //animate explosion
+            explode(2, xCoord, yCoord, "explosion.png", 50, 50);
             }
         }
         if (!isEnemy){
             if (yCurrent >= yEnd) {
                 isExploding = true;
                 iterationsExploded++;
+                //retrieve x and y coordinates of the exploding missile
+            double xCoord = xEnd;
+            double yCoord = yEnd;
+            
+            //animate explosion
+            explode(2, xCoord, yCoord, "explosion.png", 50, 50);
             }
         }
     }
@@ -111,6 +124,38 @@ public class Missile {
         return d;
     }
     
-   
+    private void explode (int numLevels, double xCenter, double yCenter, 
+                          String filename, double width, double height){
+        //base case
+        if (numLevels <= 0) {
+            return;
+        }
+        
+        //call placePicture to place a randomly selected image
+        if (numLevels <= 1){
+            PennDraw.picture(xCenter, yCenter, filename, width, height);
+        }
+        
+        //modify the x and y coordinates and decrease
+        //width and height for each level
+        double x1 = xCenter + .05;
+        double x2 = xCenter - .05;
+        double y1 = yCenter + .05;
+        double y2 = yCenter - .05;
+        
+        //decrease the depth and size
+        numLevels--;
+        //size /= 2;
+        
+        //draw upper left picture
+        explode(numLevels, x2, y1, filename, width, height);
+        //draw upper right picture
+        explode(numLevels, x1, y1, filename, width, height);
+        //draw lower left
+        explode(numLevels, x2, y2, filename, width, height);
+        //draw lower right
+        explode(numLevels, x1, y2, filename, width, height);
+        
+    }
     
 }

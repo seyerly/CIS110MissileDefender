@@ -19,14 +19,14 @@ public class MissileDefender {
         double x = 0.29;
         double y = 0.06;
         Picture b = new Picture(x, y, "Huntsman-Hall.png", 100, 100);
-        background.insertP(b);
+        background.insert(b);
         x+= .2;
         Picture c = new Picture(x, y, "PennMedicine.png", 100, 100);
-        background.insertP(c);
+        background.insert(c);
         x+= .2;
         Picture d = new Picture(x, y - .01, 
                                 "Center_for_Nanotechnology18.png", 100, 100);
-        background.insertP(d);
+        background.insert(d);
         x+= .2;
     }
      
@@ -67,7 +67,7 @@ public class MissileDefender {
         PennDraw.text(0.5, 0.7, "destroy your buildings. Once your buildings");
         PennDraw.text(0.5, 0.6, "are gone, the game is over. You gain points");
         PennDraw.text(0.5, 0.5, "as time passes and lose points with every");
-        PennDraw.text(0.5, 0.4, "missile you fire so don't strafe like");
+        PennDraw.text(0.5, 0.4, "missile you fire, so don't strafe like");
         PennDraw.text(0.5, 0.3, "a noob. Good Luck!");
         PennDraw.text(0.5, 0.1, "Press any key to continue");
         }

@@ -1,29 +1,52 @@
+/*
+ *Partner 1 Name: Evelyn Bailey
+ *Partner 1 PennKey: ebail
+ *Partner 1 Recitation #: 215
+ * 
+ *Partner 2 Name: Stephen Eyerly
+ *Partner 2 PennKey: seyerly
+ *Partner 2 Recitation #: 216
+ * 
+ * Description: The missile class constructs a missile object and has functions
+ * to move missiles and find the distance between missiles.
+ * 
+ */
+
 public class Missile {
     
-    // These are variables for the position of the missile
+    // Variables to keep track of the missile's position
     public double xBegin;
     public double yBegin;
     public double xEnd;
     public double yEnd;
     public double xCurrent;
     public double yCurrent;
-    public boolean isExploding = false; // missile starts out not exploded.
+    public boolean isExploding = false;
     public int iterationsExploded = 0;
     
-    // These variable are the total change in x and y for the missile
+    // Variables that store the total change in x and y for the missile
     public double dX;
     public double dY;
     
     // This variable stores the move constant. It determines the speed at 
     // which missiles move.
     public double moveConstant;
+   
     public boolean isEnemy;
-    
     public double explosionRadius = 0.1;
     
+    /*
+     * Name: Missile
+     * Description: constructor for defensive missiles
+     * Inputs: -
+     * Outputs: -
+     */
     public Missile(double xBegin, double yBegin, double xEnd,
                    double yEnd, double moveConstant) {
+        //the missile is not an enemy missile
         isEnemy = false;
+        
+        //the current x and y start at the x and y beginning coordinates
         this.xBegin = xBegin;
         xCurrent = xBegin;
         this.yBegin = yBegin;
@@ -38,6 +61,7 @@ public class Missile {
         
         double actualDY = yEnd - yBegin;
         
+        //calculate actual distance to travel
         double distance = Math.sqrt(actualDX * actualDX + 
                                    actualDY * actualDY);
         dX = actualDX / distance;
@@ -46,13 +70,14 @@ public class Missile {
         
     }
     
-    /*
-     * This is the constructor for an enemy missile. It is simply is constructed
-     * with one argument, the moveConstat which is analogous to speed. 
-     * Enemy missiles start at the top of the screen and move downward towards
-     * the bottom. The lateral start and ending positions of the enemy missiles
-     * however are random.
+    
+     /*
+     * Name: Missile
+     * Description: constructor for enemy missiles
+     * Inputs: double moveConstant
+     * Outputs: -
      */
+    
     public Missile(double moveConstant){
         isEnemy = true;
         
@@ -74,6 +99,7 @@ public class Missile {
         
         this.moveConstant = moveConstant;
         
+        //calculations for total distance to travel
         double actualDX = xEnd - xBegin;
         
         double actualDY = yEnd - yBegin;
@@ -85,17 +111,27 @@ public class Missile {
         
     }
     
+    /*
+     * Name: move
+     * Description: moves the missiles by updating the position of the
+     * missile image
+     * Inputs: -
+     * Outputs: -
+     */
     public void move() {
+        //if the missile is not exploding, draw it
         if (!isExploding) {
             xCurrent += dX * moveConstant;
             yCurrent += dY * moveConstant;
         }
+        //once the enemy missile is exploding, keep track of how long it has
+        //been exploding by incrementing its iterationsExploded value
         if (isEnemy){
             if (yCurrent <= yEnd) {
                 isExploding = true;
                 iterationsExploded++;
                 
-                //retrieve x and y coordinates of the exploding missile
+            //retrieve x and y coordinates of the exploding missile
             double xCoord = xEnd;
             double yCoord = yEnd;
             
@@ -103,6 +139,9 @@ public class Missile {
             explode(2, xCoord, yCoord, "explosion.png", 50, 50);
             }
         }
+        
+        //once the defensive missile is exploding, keep track of how long it has
+        //been exploding by incrementing its iterationsExploded value
         if (!isEnemy){
             if (yCurrent >= yEnd) {
                 isExploding = true;
@@ -117,6 +156,12 @@ public class Missile {
         }
     }
 
+    /*
+     * Name: distanceTo
+     * Description: finds the distance between two missiles
+     * Inputs: Missile j
+     * Outputs: double distance
+     */
     public double distanceTo(Missile j) {
         double deltaX = j.xCurrent - this.xCurrent;
         double deltaY = j.yCurrent - this.yCurrent;
@@ -124,6 +169,13 @@ public class Missile {
         return d;
     }
     
+    /*
+     * Name: explode
+     * Description: animations the explosion of a missile
+     * Inputs: int numLevels, double xCenter, double yCenter, String filenae,
+     * double width, double height
+     * Outputs: -
+     */
     private void explode (int numLevels, double xCenter, double yCenter, 
                           String filename, double width, double height){
         //base case
@@ -131,21 +183,19 @@ public class Missile {
             return;
         }
         
-        //call placePicture to place a randomly selected image
+        //draw the image only after the x and y coordinates have been shifted
         if (numLevels <= 1){
             PennDraw.picture(xCenter, yCenter, filename, width, height);
         }
         
-        //modify the x and y coordinates and decrease
-        //width and height for each level
+        //modify the x and y coordinates for placement
         double x1 = xCenter + .05;
         double x2 = xCenter - .05;
         double y1 = yCenter + .05;
         double y2 = yCenter - .05;
         
-        //decrease the depth and size
+        //decrease the depth
         numLevels--;
-        //size /= 2;
         
         //draw upper left picture
         explode(numLevels, x2, y1, filename, width, height);
@@ -155,7 +205,5 @@ public class Missile {
         explode(numLevels, x2, y2, filename, width, height);
         //draw lower right
         explode(numLevels, x1, y2, filename, width, height);
-        
     }
-    
 }

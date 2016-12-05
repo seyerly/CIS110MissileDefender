@@ -5,7 +5,7 @@
         We created two types of objects, Missile and Picture. The Missile object
         stored the beginning, ending, and current x coordinates of the missile.
         There were two constructors for enemy missiles and user missiles.
-        The Picture object stores the images of the three cities that could
+        The Picture object stores the images of the three buildings that could
         be destroyed by the enemy missiles.
         
         We created two LinkedLists, one to store the missile objects and another

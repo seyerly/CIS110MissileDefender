@@ -219,11 +219,11 @@ public class LinkedList{
             current.missile.move();
             //if the iterations after a missile has exploded exceeds the
             //explosion duration (defined above), remove node
-            if(current.missile.iterationsExploded > explosionDuration) {
+            if(current.missile.iterationsExploded() > explosionDuration) {
                 //if the missile to be deleted is an enemy missile,
                 //check to see if it should destroy a city
-                if (current.missile.isEnemy){
-                    double xEnd = current.missile.xEnd;
+                if (current.missile.isEnemy()){
+                    double xEnd = current.missile.xEnd();
                     //removes a picture from the background linked list
                     background.removePicture(xEnd);
                 }
@@ -242,8 +242,9 @@ public class LinkedList{
      * Outputs: True if all cities have been destroyed, and false otherwise
      */    
     public boolean defeat(){
-        if ((head.picture.isDeleted == true) && (head.next.picture.isDeleted == true)
-                && (head.next.next.picture.isDeleted == true)){
+        if ((head.picture.isDeleted() == true) && 
+            (head.next.picture.isDeleted() == true)
+                && (head.next.next.picture.isDeleted() == true)){
             //System.out.println("True");
             return true;  
         }
@@ -265,15 +266,15 @@ public class LinkedList{
         //is marked destroyed
         
         if ((1.0/5.0) <= x && x <= (2.0/5.0)){
-            head.picture.isDeleted = true;
+            head.picture.setDeletion(true);
             //System.out.println("Huntsman");
         }
         else if ((2.0/5.0) < x && x <= (3.0/5.0)){
-            head.next.picture.isDeleted = true;
+            head.next.picture.setDeletion(true);
             //System.out.println("PennMedicine");
         }
         else if ((3.0/5.0) < x && x <= (4.0/5.0)){
-            head.next.next.picture.isDeleted = true;
+            head.next.next.picture.setDeletion(true);
             //System.out.println("Singh");
         }
     }
@@ -295,15 +296,17 @@ public class LinkedList{
         
         while (current != null){
             //if the missile is an enemy, draw the enemy missile image
-            if(current.missile.isEnemy){
-                PennDraw.picture(current.missile.xCurrent, 
-                                 current.missile.yCurrent, "missiles.png", 100, 100);
+            if(current.missile.isEnemy()){
+                PennDraw.picture(current.missile.xCurrent(), 
+                                 current.missile.yCurrent(), 
+                                 "missiles.png", 100, 100);
             }
             
             //if the missile is defensive, draw the user missile image
-            if(!current.missile.isEnemy){
-                PennDraw.picture(current.missile.xCurrent, 
-                                 current.missile.yCurrent, "defensivemissiles.png", 100, 100);
+            if(!current.missile.isEnemy()){
+                PennDraw.picture(current.missile.xCurrent(), 
+                                 current.missile.yCurrent(), 
+                                 "defensivemissiles.png", 100, 100);
             }
             current = current.next;
         }
@@ -326,10 +329,12 @@ public class LinkedList{
         
         while (current != null){
             //only draw the image if the city has not been destroyed
-            if (current.picture.isDeleted == false) {
-                PennDraw.picture(current.picture.x, 
-                                 current.picture.y, current.picture.filename,
-                                 current.picture.width, current.picture.height);
+            if (current.picture.isDeleted() == false) {
+                PennDraw.picture(current.picture.x(), 
+                                 current.picture.y(), 
+                                 current.picture.filename(),
+                                 current.picture.width(), 
+                                 current.picture.height());
             }
             current = current.next;
         }
@@ -351,10 +356,10 @@ public class LinkedList{
         }
         
         // only check through the list if a defensive missile is exploding
-        if (!n.missile.isEnemy) {
+        if (!n.missile.isEnemy()) {
             
             // check if the missile is exploding
-            if (n.missile.isExploding) {
+            if (n.missile.isExploding()) {
                 Node current = head;
                 
                 // if so, iterate through the list to see if the other missiles 
@@ -363,11 +368,11 @@ public class LinkedList{
                     
                     // The user missile cannot destroy itself or other 
                     // user missiles.
-                    if (current != n && current.missile.isEnemy) {
+                    if (current != n && current.missile.isEnemy()) {
                         // If the enemy missile is within the blast, delete
                         // it by eliminating it from the linked list
                         if (current.missile.distanceTo(n.missile) < 
-                            current.missile.explosionRadius) {
+                            current.missile.explosionRadius()) {
                             //delete the missile
                             delete(current);
                             size--;

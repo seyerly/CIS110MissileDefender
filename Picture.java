@@ -13,17 +13,19 @@
  */
 
 public class Picture {
-    public double x;
-    public double y;
-    public String filename;
-    public int width;
-    public int height;
-    public boolean isDeleted = false;
+    private double x;
+    private double y;
+    private String filename;
+    private int width;
+    private int height;
+    private boolean isDeleted = false;
     
     /*
      * Name: Picture
-     * Description: constructor for the Picture object to contain background images
-     * Inputs: double xPosition, double yPosition, String imagename, int width, int
+     * Description: constructor for the Picture object to contain background 
+     * images
+     * Inputs: double xPosition, double yPosition, String imagename, int width,
+     * int height
      * height
      * Outputs: -
      */
@@ -33,5 +35,26 @@ public class Picture {
         this.filename = filename;
         this.width = width;
         this.height = height;
+    }
+    public double x() {
+        return x;
+    }
+    public double y() {
+        return y;
+    }
+    public String filename() {
+        return filename;
+    }
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+    public void setDeletion(boolean b) {
+        isDeleted = b;
+    }
+    public int width(){
+        return width;
+    }
+    public int height(){
+        return height;
     }
 }

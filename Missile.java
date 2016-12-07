@@ -15,25 +15,65 @@
 public class Missile {
     
     // Variables to keep track of the missile's position
-    public double xBegin;
-    public double yBegin;
-    public double xEnd;
-    public double yEnd;
-    public double xCurrent;
-    public double yCurrent;
-    public boolean isExploding = false;
-    public int iterationsExploded = 0;
+    private double xBegin;
+    private double yBegin;
+    private double xEnd;
+    private double yEnd;
+    private double xCurrent;
+    private double yCurrent;
+    private boolean isExploding = false;
+    private int iterationsExploded = 0;
     
     // Variables that store the total change in x and y for the missile
-    public double dX;
-    public double dY;
+    private double dX;
+    private double dY;
     
     // This variable stores the move constant. It determines the speed at 
     // which missiles move.
-    public double moveConstant;
+    private double moveConstant;
    
-    public boolean isEnemy;
-    public double explosionRadius = 0.1;
+    private boolean isEnemy;
+    private double explosionRadius = 0.1;
+    
+    public double xBegin() {
+        return xBegin;
+    }
+    
+    public double yBegin() {
+        return yBegin;
+    }
+    
+    public double xEnd() {
+        return xEnd;
+    }
+    
+    public double yEnd() {
+        return yEnd;
+    }
+    
+    public double xCurrent() {
+        return xCurrent;
+    }
+    
+    public double yCurrent() {
+        return yCurrent;
+    }
+    
+    public boolean isExploding() {
+        return isExploding;
+    }
+    
+    public int iterationsExploded() {
+        return iterationsExploded;
+    }
+    
+    public boolean isEnemy() {
+        return isEnemy;
+    }
+    
+    public double explosionRadius() {
+        return explosionRadius;
+    }
     
     /*
      * Name: Missile

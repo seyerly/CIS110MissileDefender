@@ -19,7 +19,7 @@ public class LinkedList{
     private Missile m;
     private int size;
     private int explosionDuration = 10;
-    public int score = 0;
+    private int score = 0;
     
     /*
      * Name: LinkedList
@@ -63,6 +63,16 @@ public class LinkedList{
         else {
             return size;
         }
+    }
+    
+    // This method adds to the score the argument
+    public void addToScore(int x) {
+        score += x;
+    }
+    
+    // This method returns the score
+    public int score() {
+        return score;
     }
     
     /*

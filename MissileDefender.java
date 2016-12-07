@@ -120,7 +120,7 @@ public class MissileDefender {
             if (PennDraw.mousePressed()) {
                 
                 // Firing missiles costs you points
-                missilesGalore.score -= 25;
+                missilesGalore.addToScore(-25);
                 PennDraw.setPenColor(PennDraw.RED);
                 PennDraw.text(0.15, 0.85, "-25");
                 PennDraw.setPenColor(PennDraw.BLACK);
@@ -154,13 +154,13 @@ public class MissileDefender {
             missilesGalore.draw();
             
             // Displays the score
-            PennDraw.text(0.1, 0.9, "Score: " + missilesGalore.score);
+            PennDraw.text(0.1, 0.9, "Score: " + missilesGalore.score());
             
             // Advances the animation
             PennDraw.advance();
             
             // As time passes, you gain points
-            missilesGalore.score++;
+            missilesGalore.addToScore(1);;
             
             // The difficulty increases as time goes on 
             difficultyConstant += 0.00003;
@@ -186,6 +186,6 @@ public class MissileDefender {
         PennDraw.text(0.5, 0.8, "Game Over!");
         
         // Displays the score
-        PennDraw.text(0.5, 0.7, "Score: " + missilesGalore.score);
+        PennDraw.text(0.5, 0.7, "Score: " + missilesGalore.score());
     }
 }
